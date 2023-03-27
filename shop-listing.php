@@ -202,7 +202,7 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
                 <strong style="color:red;">Please select an option</strong>
             </div>
             <div class="voucher_select_amount pop-validation-amount-range" style="display: none;">
-                <strong style="color:red;">Please enter amount between R50~4000</strong>
+                <strong style="color:red;">Please enter amount between R50-4000</strong>
             </div>
             <!-- end static html -->
             <form class="prodAddForm" method="POST" action="">

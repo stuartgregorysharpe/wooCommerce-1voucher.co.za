@@ -134,7 +134,7 @@
                 <div class="vlimit">Voucher limit exceeded</div>
             <?php } ?>
 
-            <a <?php if(WC()->cart->get_cart_contents_count() > 5){ ?>href="javascript:void(0);"<?php } else { ?>href="<?php echo get_site_url(); ?>/cart"<?php } ?>  class="button button-primary continue-checkout <?php if(WC()->cart->get_cart_contents_count() > 5){ ?>disable-checkout<?php } ?>">Continue to Checkout</a>
+            <a <?php if(WC()->cart->get_cart_contents_count() > 5){ ?>href="javascript:void(0);"<?php } else { ?>href="<?php echo get_site_url(); ?>/checkout"<?php } ?>  class="button button-primary continue-checkout <?php if(WC()->cart->get_cart_contents_count() > 5){ ?>disable-checkout<?php } ?>">Continue to Checkout</a>
         </div>
         <!-- end: cart-footer -->
 

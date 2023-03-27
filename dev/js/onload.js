@@ -621,6 +621,11 @@ $( ".prodAddForm" ).on( "submit", function( event ) {
 		}
 	});
 	// console.log($(this).find('input[name=\'your_price\']').val());
+	
+
+	var prod_holder = $(this).parent().parent();
+	var img = $(prod_holder).find('.prod-logo').attr('src');
+	var name = $(prod_holder).find('h2').text();
 	var voucherAmount = $(this).find('input[name=\'your_price\']').val()
 	if(voucherAmount < 50 || voucherAmount > 4000){
 		$(prod_holder).find('.pop-validation-amount-range').fadeIn();
@@ -633,11 +638,6 @@ $( ".prodAddForm" ).on( "submit", function( event ) {
 	else{
 		valid = true;
 	}
-
-	var prod_holder = $(this).parent().parent();
-	var img = $(prod_holder).find('.prod-logo').attr('src');
-	var name = $(prod_holder).find('h2').text();
-
 	if(valid){
 		addProd($( this ).serialize(),img,name);
 		$(prod_holder).find('.pop-validation').fadeOut();
@@ -858,7 +858,7 @@ $('.v_added_btns .btn_view').on('click', function() {
 
 $('.v_added_btns .btn_checkout').on('click', function() {
 	$('.voucher_added_cart').fadeOut();
-	window.location.href = '/cart'
+	window.location.href = '/checkout'
 });
 
 
@@ -898,11 +898,11 @@ $(document).on('click', '.update-prod', function(e) {
 			console.log(data);
 			reloadCart();
 			$('.edit-cart-item').fadeOut();
-			if (window.location.href.indexOf("cart") != -1){
-				setTimeout(function(){location.reload();}, 500);
-			}else {
-				$('.cart-popup').addClass('show-cart');
-			}
+			setTimeout(function(){location.reload();}, 500);
+			// if (window.location.href.indexOf("cart") != -1){
+			// }else {
+			// 	$('.cart-popup').addClass('show-cart');
+			// }
 
 		},
 		error: function(msg){
@@ -911,11 +911,11 @@ $(document).on('click', '.update-prod', function(e) {
 			getcartDetails();
 			reloadCart();
 			$('.edit-cart-item').fadeOut();
-			if (window.location.href.indexOf("cart") != -1){
-				setTimeout(function(){location.reload();}, 500);
-			}else {
-				$('.cart-popup').addClass('show-cart');
-			}
+			setTimeout(function(){location.reload();}, 500);
+			// if (window.location.href.indexOf("cart") != -1){
+			// }else {
+			// 	$('.cart-popup').addClass('show-cart');
+			// }
 		}
 	});
 });

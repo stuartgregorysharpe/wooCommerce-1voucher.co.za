@@ -3,7 +3,8 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var plumber = require('gulp-plumber');
 var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
+var babel = require('gulp-babel'),
+     uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var cleanCSS = require('gulp-clean-css');
 
@@ -30,7 +31,9 @@ gulp.task('scripts', function() {
     ])
     .pipe(plumber())
     .pipe(concat('scripts.js'))
-    .pipe(uglify())
+    .pipe(uglify().on('error', function(e){
+      console.log(e);
+    }))
     .pipe(gulp.dest('./dist/js/'));
 });
 

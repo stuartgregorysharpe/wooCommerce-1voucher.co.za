@@ -13,7 +13,7 @@
 	<div class="cart_nav desktop">
 	    <ul>
 	        <li class="cart_del_circle"><div class="circle"><span>1</span></div></li>
-	        <li class="cart_del_text"><a href="<?php echo get_option('home'); ?>/cart">Cart & Delivery</a></li>
+	        <li class="cart_del_text"><a href="<?php echo get_option('home'); ?>/checkout">Cart & Delivery</a></li>
 	        <li>
 	            <?php include (TEMPLATEPATH . '/images/vouchers/svg/chevron_right.svg'); ?>
 	        </li>

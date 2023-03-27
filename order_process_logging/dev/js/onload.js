@@ -824,7 +824,7 @@ $('.v_added_btns .btn_view').on('click', function() {
 
 $('.v_added_btns .btn_checkout').on('click', function() {
 	$('.voucher_added_cart').fadeOut();
-	window.location.href = '/cart'
+	window.location.href = '/checkout'
 });
 
 
