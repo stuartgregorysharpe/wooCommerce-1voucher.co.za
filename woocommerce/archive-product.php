@@ -11,19 +11,6 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
         $term_array[] = $term->name;
     }
 }
-
-$queried_object = get_queried_object();
-$isDialogShow = false;
-$tagSlug = "";
-if ( $queried_object instanceof WP_Term && 'product_tag' === $queried_object->taxonomy ) {
-    // Retrieve the tag slug
-        
-    $tagSlug = $queried_object->slug;
-    $isDialogShow = true;
-
-}
-//var_dump($isDialogShow); exit();
-
 ?>
 
 <!-- start:  voucher_intro -->
@@ -168,12 +155,10 @@ if ( $queried_object instanceof WP_Term && 'product_tag' === $queried_object->ta
     </div>
 </div>
 <!-- end: shop_listing -->
- 
-<div class="product-popups" id="prod-popup" <?php echo $isDialogShow ? "" : "style='display: none;'"?>>
+<div class="product-popups" id="prod-popup" style="display: none;">
     <?php
             $prod_tags = get_terms( 'product_tag' );
             $term_count = 0;
-            
             foreach ($prod_tags as $prod_tag) {
 //                var_dump($prod_tag);
                 $term_count ++;
@@ -188,12 +173,9 @@ if ( $queried_object instanceof WP_Term && 'product_tag' === $queried_object->ta
                 if(!$tag_logo){
                     $tag_logo = "https://place-hold.it/345x229?text=Image Pending&italic=true";
                 }
-                // Get the queried object
-                
-                // Check if it's a WP_Term object representing a product tag
-                
+
         ?>
-        <div class="prod-info-popup" data-popup="<?php echo $prod_tag->term_id; ?>" <?php echo $tagSlug === $prod_tag->slug ? "":  'style="display: none"' ; ?>>
+        <div class="prod-info-popup" data-popup="<?php echo $prod_tag->term_id; ?>" style="display: none">
         <div class="image-column">
             <img class="prod-logo" src="<?php echo $tag_logo; ?>" />
         </div>
@@ -221,6 +203,9 @@ if ( $queried_object instanceof WP_Term && 'product_tag' === $queried_object->ta
             </div>
             <div class="voucher_select_amount pop-validation-amount-range" style="display: none;">
                 <strong style="color:red;">Please enter amount between R50-4000</strong>
+            </div>
+            <div class="voucher_select_amount pop-validation-amount-limit" style="display: none;">
+                <strong style="color:red;">Cart may not exceed R7,000.  Current cart total:<span class="total-amount"><?php echo WC()->cart->get_total(); ?></span></strong>
             </div>
             <!-- end static html -->
             <form class="prodAddForm" method="POST" action="">

@@ -2716,6 +2716,7 @@ function add_cart_item() {
 
     $prod_details = explode('&',$_POST['prodData']);
 
+	// var_dump($_POST['prodData']);exit();
 
     if (strpos($prod_details[0], 'selected') !== false) {
         $product = explode('=', $prod_details[0])[1];
@@ -2725,19 +2726,41 @@ function add_cart_item() {
         $quantity = explode('=', $prod_details[3])[1];
         $price = explode('=', $prod_details[1])[1];
     } else {
-        var_dump($prod_details);
         $product = explode('=', $prod_details[1])[1];
         $quantity = explode('=', $prod_details[2])[1];
         $price = explode('=', $prod_details[0])[1];
     }
+	$response = array();
+
+	$new_cart_total = $price * $quantity;
+	$cart_total = 0;
+
+    foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+        $cart_product = $cart_item['data'];
+        $cp = $cart_item['custom_price'];
+
+        if($cp){
+            $cart_total += (int)($cp);
+        } else {
+            $cart_total += (int)$cart_product->regular_price;
+        }
+
+    }
+	if($cart_total + $new_cart_total > 7000){
+		$response['status'] = 'false';
+		$response['message'] = 'Price limit is 7000';
+		echo json_encode($response);
+		wp_die();
+	}
 
     for ($x = 0; $x < $quantity; $x++) {
-        var_dump('sdsd');
         $add_prod = WC()->cart->add_to_cart( $product, 1,0,array(),array('custom_price' => $price) );
     }
 
 
-
+	$response['status'] = 'true';
+	$response['message'] = 'Price limit is 7000';
+	echo json_encode($response);
     wp_die();
 }
 

@@ -639,9 +639,10 @@ $( ".prodAddForm" ).on( "submit", function( event ) {
 		valid = true;
 	}
 	if(valid){
-		addProd($( this ).serialize(),img,name);
+		addProd($( this ).serialize(),img,name, prod_holder);
 		$(prod_holder).find('.pop-validation').fadeOut();
 		$(prod_holder).find('.pop-validation-amount-range').fadeOut();
+		$(prod_holder).find('.pop-validation-amount-limit').fadeOut();
 	} else {
 		$(prod_holder).find('.pop-validation').fadeIn();
 	}
@@ -649,7 +650,7 @@ $( ".prodAddForm" ).on( "submit", function( event ) {
 });
 
 
-function addProd(e, img, name) {
+function addProd(e, img, name, prod_holder) {
 	event.preventDefault()
 	jQuery.ajax({
 		type: "post",
@@ -657,17 +658,24 @@ function addProd(e, img, name) {
 		url: my_ajax_object.ajax_url,
 		data : {action: "add_cart_item", prodData: e},
 		success: function(data){
-			console.log(data.responseText);
-			$('.cart_empty').hide();
-			reloadCart();
-			$('.voucher_added_cart .v_top_logo img').attr('src', img);
-			$('.popup-voucher-name').text(name);
-			$('.cart-footer').show();
-			$('#prod-popup').fadeOut();
-			$('.prod-info-popup').fadeOut();
-			setTimeout(function(){
-				$('.voucher_added_cart').fadeIn();
-			}, 500);
+			console.log(data, data.status)
+			if(data.status == 'true'){
+				$('.cart_empty').hide();
+				reloadCart();
+				$('.voucher_added_cart .v_top_logo img').attr('src', img);
+				$('.popup-voucher-name').text(name);
+				$('.cart-footer').show();
+				$('#prod-popup').fadeOut();
+				$('.prod-info-popup').fadeOut();
+				setTimeout(function(){
+					$('.voucher_added_cart').fadeIn();
+				}, 500);
+			}
+			else{
+				$(prod_holder).find('.pop-validation-amount-limit').fadeIn();
+				return;
+			}
+			
 		},
 		error: function(msg){
 			console.log(msg.responseText);
