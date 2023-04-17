@@ -84,7 +84,7 @@
 		</div>
 		  end: menubutton -->
 
-		<?php if (is_page('shop-listing') || is_product_category() ) {  ?> <div class="cta cta_cart">
+		<?php if (is_page('shop-listing') || is_product_category() || is_product_tag() ) {  ?> <div class="cta cta_cart">
 		<a href="javascript:void(0);" id="open-cart"><span>Cart</span><div class="cart_items"><?php echo WC()->cart->get_cart_contents_count(); ?></div></a>
 		</div>
 		<?php } ?>

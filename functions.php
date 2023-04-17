@@ -2721,6 +2721,7 @@ function add_cart_item() {
     if (strpos($prod_details[0], 'selected') !== false) {
         $product = explode('=', $prod_details[0])[1];
         $quantity = explode('=', $prod_details[1])[1];
+		$price = wc_get_product( $product )->get_price();
     }elseif (strpos($prod_details[0], 'Prod') !== false) {
         $product = explode('=', $prod_details[2])[1];
         $quantity = explode('=', $prod_details[3])[1];

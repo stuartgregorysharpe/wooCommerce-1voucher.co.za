@@ -205,7 +205,7 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
                 <strong style="color:red;">Please enter amount between R50-4000</strong>
             </div>
             <div class="voucher_select_amount pop-validation-amount-limit" style="display: none;">
-                <strong style="color:red;">Cart may not exceed R7000.  Current cart total:<span class="total-amount"><?php echo WC()->cart->get_total(); ?></span></strong>
+                <strong style="color:red;" class="cart-totals">Cart may not exceed R7,000.  Current cart total:<span class="total-amount"><?php echo WC()->cart->get_total(); ?></span></strong>
             </div>
             <!-- end static html -->
             <form class="prodAddForm" method="POST" action="">
