@@ -563,11 +563,14 @@ $(document).on('click', '.add-prod', function(e) {
 	$('[data-popup='+pop_ref+']').fadeIn();
 	$('#prod-popup').fadeIn();
 	$('.voucher_added_cart').fadeOut();
-
+	window.history.pushState('Shop', 'OneVoucher', $(this).attr('data-url'));
+	
 });
 
 $(document).on('click', '.close-pop', function(e) {
-	$('#prod-popup').fadeOut();
+	$('#prod-popup').fadeOut(500, function(){
+		window.history.pushState('Shop', "OneVoucher", "/");
+	});
 	$('.prod-info-popup').fadeOut();
 	$('.edit-cart-item').fadeOut();
 });
@@ -579,7 +582,9 @@ $(document).mouseup(function(e)
 	if (!container.is(e.target) && container.has(e.target).length === 0)
 	{
 		container.fadeOut();
-		$('#prod-popup').fadeOut();
+		$('#prod-popup').fadeOut(500, function(){
+			window.history.pushState('Shop', "OneVoucher", "/");
+		});
 		$('.edit-cart-item').fadeOut();
 	}
 
@@ -665,7 +670,9 @@ function addProd(e, img, name, prod_holder) {
 				$('.voucher_added_cart .v_top_logo img').attr('src', img);
 				$('.popup-voucher-name').text(name);
 				$('.cart-footer').show();
-				$('#prod-popup').fadeOut();
+				$('#prod-popup').fadeOut(500, function(){
+					window.history.pushState('Shop', "OneVoucher", "/");
+				});
 				$('.prod-info-popup').fadeOut();
 				setTimeout(function(){
 					$('.voucher_added_cart').fadeIn();
@@ -684,7 +691,9 @@ function addProd(e, img, name, prod_holder) {
 			$('.voucher_added_cart .v_top_logo img').attr('src', img);
 			$('.popup-voucher-name').text(name);
 			$('.cart-footer').show();
-			$('#prod-popup').fadeOut();
+			$('#prod-popup').fadeOut(500, function(){
+				window.history.pushState('Shop', "OneVoucher", "/");
+			});
 			$('.prod-info-popup').fadeOut();
 			setTimeout(function(){
 				$('.voucher_added_cart').fadeIn();
@@ -794,14 +803,18 @@ function reloadCart() {
 		data : { action: "reload_cart" },
 		success: function(data){
 			$('.cart-list').html(data.responseText);
-			$('#prod-popup').fadeOut();
+			$('#prod-popup').fadeOut(500, function(){
+				window.history.pushState('Shop', "OneVoucher", "/");
+			});
 			$('.prod-info-popup').fadeOut();
 			// $('.edit-cart-item').fadeOut();
 			getcartDetails();
 		},
 		error: function(data){
 			$('.cart-list').html(data.responseText);
-			$('#prod-popup').fadeOut();
+			$('#prod-popup').fadeOut(500, function(){
+				window.history.pushState('Shop', "OneVoucher", "/");
+			});
 			$('.prod-info-popup').fadeOut();
 			// $('.edit-cart-item').fadeOut();
 			getcartDetails();

@@ -116,7 +116,7 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
                                 <?php } ?>
                                 <strong>From R<?php echo $from_price; ?></strong>
                             </div>
-                            <div class="add-prod button button-primary" id="<?php echo $prod_tag->term_id; ?>">Choose Voucher +</div>
+                            <div class="add-prod button button-primary" id="<?php echo $prod_tag->term_id; ?>" data-url="/product-tag/<?php echo $prod_tag->slug;?>">Choose Voucher +</div>
                         </div>
                 <?php }
 
