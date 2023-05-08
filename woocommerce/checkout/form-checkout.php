@@ -144,7 +144,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="checkout-details cart-page "  id="cart-container">
             <!-- start: left-col -->
             <div class="left-col left-cart">
-                <div class="section">
+                <div class="section" style="display: none;">
                     <!--  <h2>Billing Details</h2> -->
                     <?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
 
