@@ -15,12 +15,16 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
 $queried_object = get_queried_object();
 $isDialogShow = false;
 $tagSlug = "";
+$categorySlug = "";
 if ( $queried_object instanceof WP_Term && 'product_tag' === $queried_object->taxonomy ) {
     // Retrieve the tag slug
         
     $tagSlug = $queried_object->slug;
     $isDialogShow = true;
 
+}
+else if ( $queried_object instanceof WP_Term && 'product_cat' === $queried_object->taxonomy){
+    $categorySlug = $queried_object->slug;
 }
 //var_dump($isDialogShow); exit();
 
@@ -61,7 +65,7 @@ if ( $queried_object instanceof WP_Term && 'product_tag' === $queried_object->ta
 
 
                 <ul>
-                    <li class="active">
+                    <li <?php if($categorySlug == "" ){?> class="active" <?php } ?>>
                     <span>
                         <?php include (TEMPLATEPATH . '/images/vouchers/svg/icon_shopall.svg'); ?></span>
                         <a href="<?php echo get_site_url(); ?>/shop-listing">Shop All</a>
@@ -70,7 +74,8 @@ if ( $queried_object instanceof WP_Term && 'product_tag' === $queried_object->ta
                     $term_args = array('taxonomy' => 'product_cat', 'exclude' => 45, 'order' => 'ASC');
                     $prod_cats = get_terms( $term_args );
                     foreach ($prod_cats as $prod_cat) { ?>
-                        <li>
+                    
+                        <li <?php if($prod_cat->slug == $categorySlug){?> class="active" <?php } ?>>
                             <span>
                                 <?php echo get_field('product_category_icon', 'product_cat_'.$prod_cat->term_id); ?>
                             </span>
@@ -92,8 +97,40 @@ if ( $queried_object instanceof WP_Term && 'product_tag' === $queried_object->ta
                         'hide_empty'=> true
                     ));
 //                    var_dump($numTerms);
-                    $prod_args = array('taxonomy' => 'product_tag', 'order' => 'ASC');
-                    $prod_tags = get_terms( $prod_args);
+                    $prod_args = array('taxonomy' => 'product_tag', 'order' => 'ASC', );
+
+                    
+                    
+                    if($categorySlug != ""){
+                        // global $wpdb;
+                        $category = get_term_by('slug', $categorySlug, 'product_cat');
+                        // $sql = "
+                        //     SELECT t.*, tt.term_taxonomy_id, tt.taxonomy, tt.description, tt.parent, t.term_order 
+                        //     FROM {$wpdb->terms} t JOIN {$wpdb->termmeta} tm ON t.term_id = tm.term_id JOIN {$wpdb->term_taxonomy} tt ON t.term_id = tt.term_id 
+                        //     WHERE tt.taxonomy = 'product_tag' AND tm.meta_key = 'tag_category' AND ( tm.meta_value LIKE '%\"{$category->term_id}\"%' )
+                        // ";
+                        
+                        // $prod_tags = $wpdb->get_results( $sql );
+                        // $numTerms = count($prod_tags);
+
+                        $prod_args = array(
+                            'taxonomy'   => 'product_tag',
+                            // 'exclude' => $old_posts,
+                            'meta_query' => array(
+                                array(
+                                    'key'       => 'tag_category',
+                                    'value'     => $category->term_id,
+                                    'compare'   => 'LIKE'
+                                )
+                            )
+                        );
+                        $prod_tags = get_terms( $prod_args);    
+                    }
+                    else{
+                        $prod_tags = get_terms( $prod_args);    
+                    }
+                    
+                    $numTerms = count($prod_tags);
                     $active_terms = array();
                     $term_count = 0;
                     foreach ($prod_tags as $prod_tag) {
@@ -159,7 +196,9 @@ if ( $queried_object instanceof WP_Term && 'product_tag' === $queried_object->ta
                     </div>
                 </div>
                 <?php if($term_count != $numTerms) { ?>
-                    <a class="button button-primary" href="javascript:void(0);" onclick="loadMorePosts(<?php echo $term_count; ?>, '<?php echo implode('|',$active_terms); ?>')">Load more</a>
+                    <a class="button button-primary" href="javascript:void(0);" 
+                    <?php if($categorySlug != ""){?>data_cat = "<?php echo $category->term_id;?>" <?php }?>
+                    onclick="loadMorePosts(<?php echo $term_count; ?>, '<?php echo implode('|',$active_terms); ?>')">Load more</a>
                 <?php } ?>
             </div>
             <!-- end: listing_loadmore -->
