@@ -574,6 +574,10 @@ $(window).on("popstate", function(e) {
 			$('#prod-popup').fadeIn();
 			$('.voucher_added_cart').fadeOut();
 		}
+		
+	}else{
+		$('[data-popup='+pop_ref+']').fadeOut();
+		$('#prod-popup').fadeOut();
 	}
 });
 $(document).on('click', '.close-pop', function(e) {
