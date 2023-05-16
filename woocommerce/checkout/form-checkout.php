@@ -160,11 +160,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <div class="flex_row">
                                         <div class="frm_none_container frm_form_field" id="billing_first_name_field" data-priority="10">
                                             <label for="billing_first_name" class="">First name</label>
-                                            <input type="text" class="input-text " name="billing_first_name" id="billing_first_name" placeholder="First Name" value="" autocomplete="given-name">
+                                            <input type="text" class="input-text " name="billing_first_name" id="billing_first_name" placeholder="First Name" value="First Name" autocomplete="given-name">
                                         </div>
                                         <div class="frm_none_container frm_form_field" id="billing_last_name_field" data-priority="20">
                                             <label for="billing_last_name" class="">Last name</label>
-                                            <input type="text" class="input-text " name="billing_last_name" id="billing_last_name" placeholder="Last Name" value="" autocomplete="family-name">
+                                            <input type="text" class="input-text " name="billing_last_name" id="billing_last_name" placeholder="Last Name" value="Last Name" autocomplete="family-name">
                                         </div>
                                     </div>
                                     <!-- start: style_checkboxes -->
