@@ -522,8 +522,13 @@ $(function() {
 			$('.buyvouchers_step1_next').addClass('inactive');
 		}
 	});
-
-
+	$('form.checkout').on('change', 'input[name="payment_method"]', function(){
+		console.log("Input has been clicked !!!")
+	});
+	
+	$(document).on('click', 'input[name="peach_payment_id"]', function(event){
+		console.log("Peach Input has been clicked !!!", event)
+	})
 });
 
 function copyToClipboard(element) {
