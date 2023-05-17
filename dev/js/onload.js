@@ -522,12 +522,19 @@ $(function() {
 			$('.buyvouchers_step1_next').addClass('inactive');
 		}
 	});
-	$('form.checkout').on('change', 'input[name="payment_method"]', function(){
-		console.log("Input has been clicked !!!")
+	$('form.checkout').on('click', 'input[name="payment_method"]', function(e){
+		console.log("Input has been clicked !!!", e.target.value)
+		if(e.target.value != "peach-payments"){
+			var radioButtons = $('input[name="peach_payment_id"]')
+			for(var i = 0 ; i < radioButtons.length ; i ++){
+				
+				radioButtons[i].checked = false
+			}
+		}
 	});
 	
 	$(document).on('click', 'input[name="peach_payment_id"]', function(event){
-		console.log("Peach Input has been clicked !!!", event)
+		$("#payment_method_peach-payments")[0].checked = true
 	})
 });
 
