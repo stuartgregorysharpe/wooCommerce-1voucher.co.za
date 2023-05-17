@@ -37,12 +37,9 @@ else{
 ?>
 <li class="wc_payment_method payment_method_<?php echo esc_attr( $gateway->id ); ?>">
 
-<div class="peachpayopt ozow" style="padding:5px 0; background-image: unset;">
+<div class="peachpayopt ozow" style="padding:5px 0; background-image: url(/wp-content/themes/onevoucher/images/vouchers/logos/logo_ozow_payment.png);">
   <input type="radio" id="payment_method_ipay" name="payment_method"  style="width:auto;" value="<?php echo esc_attr( $gateway->id ); ?>" >
   <label style="display:inline;" for="payment_method_ipay">Pay with Ozow</label>
-  <br/>
-<?php echo $gateway->get_icon(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ ?>
-  
 </div>
 
 </li>
