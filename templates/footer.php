@@ -79,12 +79,12 @@
 		<hr>
 		<div class="copy-logo"><a href="http://flash-group.com" target="_blank"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/svg/flash.svg" alt=""></a></div>
 		<div class="copy-text">
-			&copy;1ForYou - Part of the <a href="http://flash-group.com" target="_blank">Flash Group</a> | All rights reserved
+			Part of the <a href="https://flash.co.za/overview/" target="_blank">Flash Group</a> | All rights reserved
 		</div>
 		<div class="copy-links flex">
-			<a href="https://www.1voucher.co.za/terms-conditions" target="_blank">Terms & Conditions</a>
+			<a class="" href="https://www.1voucher.co.za/terms-conditions-copy">Terms & Conditions</a>
 			<a href="https://www.pepkor.co.za/wp-content/uploads/2021/04/Privacy-Statement.pdf" target="_blank">Privacy Policy</a>
-			<a href="https://www.1voucher.co.za/cookie-policy" target="_blank">Cookie Policy</a>
+			<a href="https://www.1voucher.co.za/cookie-policy ">Cookie Policy</a>
 		</div>
 	</div>
 </div>
