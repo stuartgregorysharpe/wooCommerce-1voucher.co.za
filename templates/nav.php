@@ -21,7 +21,7 @@
 					<li><a href="https://www.1voucher.co.za/where-to-buy" target="_blank">where to buy</a></li>
 					<li><a href="https://www.1voucher.co.za/where-to-spend" target="_blank">where to spend</a></li>
 				<!-- 	<li><a href="https://www.1voucher.co.za/" target="_blank">Partners</a></li> -->
-					<li><a href="https://www.1voucher.co.za/1foryou-app" target="_blank">Download the 1ForYou App</a></li>
+					<li><a href="https://flash.co.za/mobile-wallet-app" target="_blank">Download the 1ForYou App</a></li>
 
 
 					<!-- <li><a href="#where">where to buy</a></li>
@@ -36,7 +36,7 @@
 				<li><a href="https://www.1voucher.co.za/where-to-buy" target="_blank">where to buy</a></li>
 					<li><a href="https://www.1voucher.co.za/where-to-spend" target="_blank">where to spend</a></li>
 					<!-- <li><a href="https://www.1voucher.co.za/" target="_blank">Partners</a></li> -->
-					<li><a href="https://www.1voucher.co.za/1foryou-app" target="_blank">Download the 1ForYou App</a></li>			
+					<li><a href="https://flash.co.za/mobile-wallet-app" target="_blank">Download the 1ForYou App</a></li>			
 					 <?php /* ?>
 					<li><a href="<?php // bloginfo('url'); ?>/home?section=where">where to buy</a></li>
 					<li><a href="<?php // bloginfo('url'); ?>/home?section=how">How to use</a></li>

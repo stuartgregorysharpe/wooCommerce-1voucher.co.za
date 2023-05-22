@@ -175,13 +175,13 @@ else if ( $queried_object instanceof WP_Term && 'product_cat' === $queried_objec
 
                 <!-- Start: Download -->
                 <div class="prod-box-outer img-only" style="background-image:url('<?php bloginfo('stylesheet_directory'); ?>/images/vouchers/covers/cover_downloadapp.png')">
-                    <a href="https://www.1voucher.co.za/1foryou-app"></a>
+                    <a href="https://flash.co.za/mobile-wallet-app"></a>
                 </div>
                 <!-- End: -->
 
                  <!-- Start: Download -->
                 <div class="prod-box-outer img-only double-size" style="display:none; background-image:url('<?php bloginfo('stylesheet_directory'); ?>/images/vouchers/covers/cover_downloadapp.png')">
-                    <a href="https://www.1voucher.co.za/1foryou-app"></a>
+                    <a href="https://flash.co.za/mobile-wallet-app"></a>
                 </div>
                 <!-- End: -->
 
