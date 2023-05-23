@@ -594,7 +594,10 @@ $(window).on("popstate", function(e) {
 });
 $(document).on('click', '.close-pop', function(e) {
 	$('#prod-popup').fadeOut(500, function(){
-		window.history.back()
+		if(history.state != null)
+			window.history.back()
+		else
+			window.history.pushState(null, 'OneVoucher', '/');
 	});
 	$('.prod-info-popup').fadeOut();
 	$('.edit-cart-item').fadeOut();
@@ -609,7 +612,10 @@ $(document).mouseup(function(e)
 		container.fadeOut();
 		if($('#prod-popup:visible').length > 0){
 			$('#prod-popup').fadeOut(500, function(){
-				window.history.back()
+				if(history.state != null)
+					window.history.back()
+				else
+					window.history.pushState(null, 'OneVoucher', '/');
 			});
 		}
 		
