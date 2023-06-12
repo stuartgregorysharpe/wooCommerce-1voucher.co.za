@@ -113,13 +113,13 @@ $cur_cat = get_queried_object();
 
 
                     <!-- Start: Download -->
-                    <div class="prod-box-outer img-only" style="background-image:url('<?php bloginfo('stylesheet_directory'); ?>/images/vouchers/covers/cover_downloadapp.png')">
+                    <div class="prod-box-outer img-only" style="background-image:url('<?php bloginfo('stylesheet_directory'); ?>/images/vouchers/covers/cover_downloadapp_new.png')">
                         <a href="<?php bloginfo('url'); ?>/oneforyou-app/"></a>
                     </div>
                     <!-- End: -->
 
                     <!-- Start: Download -->
-                    <div class="prod-box-outer img-only double-size" style="display:none; background-image:url('<?php bloginfo('stylesheet_directory'); ?>/images/vouchers/covers/cover_downloadapp.png')">
+                    <div class="prod-box-outer img-only double-size" style="display:none; background-image:url('<?php bloginfo('stylesheet_directory'); ?>/images/vouchers/covers/cover_downloadapp_new.png')">
                         <a href="<?php bloginfo('url'); ?>/oneforyou-app/"></a>
                     </div>
                     <!-- End: -->

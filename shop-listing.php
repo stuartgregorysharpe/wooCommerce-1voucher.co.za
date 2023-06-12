@@ -124,14 +124,14 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
 
 
                 <!-- Start: Download -->
-                <div class="prod-box-outer img-only" style="background-image:url('<?php bloginfo('stylesheet_directory'); ?>/images/vouchers/covers/cover_downloadapp.png')">
-                    <a href="https://flash.co.za/mobile-wallet-app"></a>
+                <div class="prod-box-outer img-only" style="background-image:url('<?php bloginfo('stylesheet_directory'); ?>/images/vouchers/covers/cover_downloadapp_new.png')">
+                    <a href="https://flash.co.za/app"></a>
                 </div>
                 <!-- End: -->
 
                  <!-- Start: Download -->
-                <div class="prod-box-outer img-only double-size" style="display:none; background-image:url('<?php bloginfo('stylesheet_directory'); ?>/images/vouchers/covers/cover_downloadapp.png')">
-                    <a href="https://flash.co.za/mobile-wallet-app"></a>
+                <div class="prod-box-outer img-only double-size" style="display:none; background-image:url('<?php bloginfo('stylesheet_directory'); ?>/images/vouchers/covers/cover_downloadapp_new.png')">
+                    <a href="https://flash.co.za/app"></a>
                 </div>
                 <!-- End: -->
 
