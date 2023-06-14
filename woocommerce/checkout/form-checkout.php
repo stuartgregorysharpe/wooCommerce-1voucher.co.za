@@ -224,14 +224,14 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 Send all vouchers to a single recipient. <br>
                                 How would you like to send it?
                             </div>
-                            <div class="cart_radios">
-                                <input type="radio" id="delivery_email" name="main_delivery_option" value="Email" checked />
+                            <div class="cart_radios" style="display: none">
+                                <input type="radio" id="delivery_email" name="main_delivery_option" value="Email" />
                                 <label for="delivery_email">Email</label>
-                                <input type="radio" id="delivery_sms" name="main_delivery_option" value="SMS" />
+                                <input type="radio" id="delivery_sms" name="main_delivery_option" value="SMS" checked />
                                 <label for="delivery_sms">SMS</label>
                             </div>
                             <!-- start:  deliver-email -->
-                            <div class="frm_forms deliver-email">
+                            <div class="frm_forms deliver-email" style="display: none">
                                 <div class=" frm_none_container frm_form_field">
                                     <label for="" id="">Email Address</label>
                                     <input type="email" value="" placeholder="Email Address" id="billing_email" name="billing_email">
@@ -239,7 +239,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </div>
                             <!-- end:  deliver-email -->
                             <!-- start:  deliver-num -->
-                            <div class="frm_forms deliver-num" style="display: none">
+                            <div class="frm_forms deliver-num">
                                 <div class=" frm_none_container frm_form_field">
                                     <div class="sms-validation"></div>
                                     <label for="" id="">Cellphone Number</label>
@@ -338,14 +338,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                             <!-- start: split-delivery-options -->
                             <div class="split-delivery-options" data-key="<?php echo $cart_item_key; ?>" style="display: none">
-                                <input name="delsys<?php echo $cart_item_key; ?>" type="radio" id="delivery_email<?php echo $cart_item_key; ?>" name="split_delivery_option<?php echo $product_id; ?>" value="Email" checked />
-                                <label for="delivery_email<?php echo $cart_item_key; ?>">Email</label>
-                                <input name="delsys<?php echo $cart_item_key; ?>" type="radio" id="delivery_sms<?php echo $cart_item_key; ?>" name="split_delivery_option<?php echo $product_id; ?>" value="SMS" />
-                                <label for="delivery_sms<?php echo $cart_item_key; ?>">SMS</label>
+                                <div style="display: none">
+                                    <input name="delsys<?php echo $cart_item_key; ?>" type="radio" id="delivery_email<?php echo $cart_item_key; ?>" name="split_delivery_option<?php echo $product_id; ?>" value="Email"/>
+                                    <label for="delivery_email<?php echo $cart_item_key; ?>">Email</label>
+                                    <input name="delsys<?php echo $cart_item_key; ?>" type="radio" id="delivery_sms<?php echo $cart_item_key; ?>" name="split_delivery_option<?php echo $product_id; ?>" value="SMS" checked  />
+                                    <label for="delivery_sms<?php echo $cart_item_key; ?>">SMS</label>
+                                </div>
                                 <br />
                                 <br />
                                 <!-- start:  deliver-email -->
-                                <div class="frm_forms deliver-email">
+                                <div class="frm_forms deliver-email" style="display: none">
                                     <div class=" frm_none_container frm_form_field">
                                         <label for="" id="">Email Address</label>
                                         <input type="email" value="" placeholder="Email Address">
@@ -353,7 +355,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 </div>
                                 <!-- end:  deliver-email -->
                                 <!-- start:  deliver-num -->
-                                <div class="frm_forms deliver-num" style="display: none">
+                                <div class="frm_forms deliver-num">
                                     <div class=" frm_none_container frm_form_field">
                                         <div class="sms-validation"></div>
                                         <label for="" id="">Cellphone Number</label>
