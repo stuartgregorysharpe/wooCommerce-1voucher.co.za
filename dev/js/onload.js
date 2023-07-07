@@ -889,6 +889,11 @@ $(document).on('click', '.ajax-quant-update .ns-btn', function(e) {
 $(document).on('click', '.update-prod', function(e) {
 	event.preventDefault();
 	console.log('update product');
+	var amount = $( '.prodUpdateForm .nameYP' ).val()
+	if(parseInt(amount) > 4000 || parseInt(amount) < 50){
+		$('.pop-validation-amount-range').fadeIn();
+		return
+	}
 	jQuery.ajax({
 		type: "post",
 		dataType: "json",

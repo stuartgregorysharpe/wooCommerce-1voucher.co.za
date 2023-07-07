@@ -2648,6 +2648,9 @@ function edit_cart_item() {
                     </ul>
                 </div>
             </div>
+			<div class="voucher_select_amount pop-validation-amount-range" style="display: none;">
+                <strong style="color:red;">Please enter amount between R50-R4000</strong>
+            </div>
             <div class="voucher_select_amount">
                 <strong>Update cart Selection</strong>
             </div>
@@ -2687,7 +2690,7 @@ function edit_cart_item() {
                             </div>
                             <div class="custom_amt_input">
                                 <input placeholder="Custom Amount" class="nameYP" name="your_price" type="number">
-                                <span>Min R50, max R2500.</span>
+                                <span>Min R50, max R4000.</span>
                             </div>
                             <input name="selected_prod" value="<?php echo get_the_ID(); ?>" type="hidden">
                         </div>
@@ -2878,7 +2881,7 @@ function reload_cart() {
                 <div class="cart_item_top_info">
                     <h3><?php echo $tags[0]->name; ?></h3>
                     <span><?php echo $product->description; ?></span>
-                    <button class="editcartitem">
+                    <button class="editcartitem" type="button">
                         <span class="update-cart-prod" data-cart_key="<?php echo $cart_item_key; ?>" data-prod_quantity="<?php echo $quantity; ?>" data-prod_id="<?php echo $product_id; ?>">Edit</span>
                         <?php include (TEMPLATEPATH . '/images/vouchers/svg/icon_edit.svg'); ?>
                     </button>
