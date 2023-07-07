@@ -467,6 +467,7 @@
 
         nfh_order_process_logging( $order_id, 'Looping through products in cart' );
 
+		var_dump(WC()->cart->get_cart())->exit();
         foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 
             $order_item_data = $order_data[$orderCounter];

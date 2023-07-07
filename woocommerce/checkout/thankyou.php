@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <div class="woocommerce-order">
     <?php if ( $order ) {
-
+        echo($order);
 		do_action( 'woocommerce_before_thankyou', $order->get_id() ); ?>
     <?php if ( $order->has_status( 'failed' ) ) { ?>
     <!-- start: payment-success-fail   FAIL -->

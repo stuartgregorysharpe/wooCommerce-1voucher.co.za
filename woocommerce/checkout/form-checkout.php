@@ -386,7 +386,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php } ?>
                     <div class="section">
                         <h2>Payment Method</h2>
-                        Your personal data will be used to process your order, support your experiece throughout this website, and for other purposes described in our <a target="_blank" href="https://www.pepkor.co.za/wp-content/uploads/2021/04/Privacy-Statement.pdf">privacy policy</a>
+                        Please note we do not accept Standard Bank card purchases. Your personal data will be used to process your order, support your experience throughout this website, and for other purposes des
                         <div id="order_review" class="woocommerce-checkout-review-order">
                         <?php do_action( 'woocommerce_checkout_order_review' ); ?>
                     </div>

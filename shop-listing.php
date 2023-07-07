@@ -269,7 +269,7 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
                         <input type="hidden" name="addToCart" value="yes">
                     </div>
                     <div class="voucher_btn">
-                        <button type="submit" class="add-prod add-prod-ajax">Add to Cart</button>
+                        <button type="submit" class="add-prod-ajax">Add to Cart</button>
                     </div>
                 </div>
             </form>
@@ -309,7 +309,7 @@ if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
         <input type="hidden" name="addToCart" value="yes">
     </div>
     <div class="voucher_btn">
-        <button type="submit" class="add-prod add-prod-ajax">Add to Cart</button>
+        <button type="submit" class="add-prod-ajax">Add to Cart</button>
     </div>
 </div>
 <!-- end:  voucher_addcart fixed_mobile -->

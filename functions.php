@@ -2,7 +2,19 @@
 
 	require_once "libs/Mobile_Detect.php";
 
+	add_action('woocommerce_checkout_update_order_meta', 'store_cart_items_in_order_meta');
 
+	function store_cart_items_in_order_meta($order_id) {
+		$cart = WC()->cart;
+		$items = $cart->get_cart();
+
+		
+		// Store the cart items as order metadata
+		update_post_meta($order_id, '_stored_cart_items', $items);
+		update_post_meta($order_id, '_stored_cart_contents', $cart->cart_contents);
+		
+	}
+	 
 	/*
 	 *	WP HOOK THINGS
 	 */
@@ -17,7 +29,6 @@
 		$path = get_stylesheet_directory() . '/acf-json';
 		return $path;
 	}
-
 
 	function order_request_filter($order_request, $order_id) {
 
@@ -442,8 +453,6 @@
 		$order_data = $order->get_data();
 		$order_id = $order_data['id'];
 
-//		$nf->mail_print_r( 'gerhard@ninjasforhire.co.za', $order_data, '1foryou order_data' );
-//		$nf->mail_print_r( 'gerhard@ninjasforhire.co.za', $order_id, '1foryou order_id' );
 
 		// log
 		nfh_order_process_logging( $order_id, 'Payment Received for '. $order_id );
@@ -466,8 +475,10 @@
         $orderCounter = 0;
 
         nfh_order_process_logging( $order_id, 'Looping through products in cart' );
-
-        foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+		$order = wc_get_order($order_id);
+		$stored_cart_items = $order->get_meta('_stored_cart_items');
+		$cart_contents = $order->get_meta('_stored_cart_contents');
+        foreach ( $stored_cart_items as $cart_item_key => $cart_item ) {
 
             $order_item_data = $order_data[$orderCounter];
 
@@ -476,15 +487,15 @@
             $_product =  wc_get_product( $cart_item['data']->get_id());
 
             $order_items_i++;
-
+			
             $order_items[$order_items_i] = array(
                 'product_id' => $cart_item['data']->get_id(),
                 'name' => $_product->get_title(),
-                'total' => WC()->cart->cart_contents[$cart_item_key]['line_total'],
-                'voucher-amount' => (WC()->cart->cart_contents[$cart_item_key]['line_total']/WC()->cart->cart_contents[$cart_item_key]['quantity']),
-                'quantity' => WC()->cart->cart_contents[$cart_item_key]['quantity'],
-                'how' => WC()->cart->cart_contents[$cart_item_key]['del_method'],
-                'del-value' => WC()->cart->cart_contents[$cart_item_key]['del_value'],
+                'total' => $cart_contents[$cart_item_key]['line_total'],
+                'voucher-amount' => ($cart_contents[$cart_item_key]['line_total']/$cart_contents[$cart_item_key]['quantity']),
+                'quantity' => $cart_contents[$cart_item_key]['quantity'],
+                'how' => $cart_contents[$cart_item_key]['del_method'],
+                'del-value' => $cart_contents[$cart_item_key]['del_value'],
                 'sku' => $_product->get_sku()
             );
 
@@ -492,20 +503,17 @@
             nfh_order_process_logging( $order_id, '1.b Product ID : ' . $cart_item['data']->get_id());
             nfh_order_process_logging( $order_id, '1.c Product SKU' . $_product->get_sku() );
             nfh_order_process_logging( $order_id, '1.d Product Name ' . $_product->get_title());
-            nfh_order_process_logging( $order_id, '1.e Product Price : ' . WC()->cart->cart_contents[$cart_item_key]['line_total']);
-            nfh_order_process_logging( $order_id, '1.f Product Quantity' . WC()->cart->cart_contents[$cart_item_key]['quantity']);
-            nfh_order_process_logging( $order_id, '1.g Contact Method' . WC()->cart->cart_contents[$cart_item_key]['del_method'] );
-            nfh_order_process_logging( $order_id, '1.h Contact Method Value ' . WC()->cart->cart_contents[$cart_item_key]['del_value'] );
+            nfh_order_process_logging( $order_id, '1.e Product Price : ' . $cart_contents[$cart_item_key]['line_total']);
+            nfh_order_process_logging( $order_id, '1.f Product Quantity' . $cart_contents[$cart_item_key]['quantity']);
+            nfh_order_process_logging( $order_id, '1.g Contact Method' . $cart_contents[$cart_item_key]['del_method'] );
+            nfh_order_process_logging( $order_id, '1.h Contact Method Value ' . $cart_contents[$cart_item_key]['del_value'] );
 
 
-            $voucher_del_method = WC()->cart->cart_contents[$cart_item_key]['del_method'];
-            $voucher_del_value = WC()->cart->cart_contents[$cart_item_key]['del_value'];
+            $voucher_del_method = $cart_contents[$cart_item_key]['del_method'];
+            $voucher_del_value = $cart_contents[$cart_item_key]['del_value'];
 
 
             $datajson = '{
-//							"buyvouchers_1fa_vtype":"a",
-//							"buyvouchers_1fa_type":"d",
-//							"buyvouchers_1fa_custom":"c",
 							"buyvouchers_1fa_receive":"'.$voucher_del_method.'",
 							"buyvouchers_1fa_email":"'.$voucher_del_value.'",
 							"buyvouchers_1fa_mobile":"'.$voucher_del_value.'"
@@ -518,7 +526,7 @@
             $voucher_amount = $order_items[$order_items_i]['total'];
 
             $voucher_data = array(
-                'amount' => WC()->cart->cart_contents[$cart_item_key]['line_total'],
+                'amount' => $cart_contents[$cart_item_key]['line_total'],
                 'order_id' => $order_id,
                 'prod_id' => get_field('voucher_id', $cart_item['data']->get_id())
             );
@@ -545,39 +553,25 @@
                 nfh_order_process_logging( $order_id, '4.c Voucher Transaction ID : '. $purchase['transactionId'] );
                 nfh_order_process_logging( $order_id, '4.d Voucher Serial Number : '. $purchase['voucher']['serialNumber'] );
 
-//                $item_id = $kod;
-//
-//                nfh_order_process_logging( $order_id, 'log: item_id ' . $item_id );
-
                 update_post_meta($order_id, 'Cart_ID_'.$orderCounter, $cart_item_key);
                 update_post_meta($order_id, 'transactionID - '.$cart_item_key, $purchase['transactionId']);
                 update_post_meta($order_id, 'serialNumber - '.$cart_item_key, $purchase['voucher']['serialNumber']);
                 update_post_meta($order_id, 'VoucherExpiry - '.$cart_item_key, $purchase['voucher']['expiryDate']);
-                update_post_meta($order_id, 'DelMethod - '.$cart_item_key, WC()->cart->cart_contents[$cart_item_key]['del_method']);
-                update_post_meta($order_id, 'DelValue - '.$cart_item_key, WC()->cart->cart_contents[$cart_item_key]['del_value']);
+                update_post_meta($order_id, 'DelMethod - '.$cart_item_key, $cart_contents[$cart_item_key]['del_method']);
+                update_post_meta($order_id, 'DelValue - '.$cart_item_key, $cart_contents[$cart_item_key]['del_value']);
 
-//                nfh_order_process_logging( $order_id, 'log: transactionID ' . $purchase['transactionId'] );
-//                nfh_order_process_logging( $order_id, 'log: serialNumber ' . $purchase['voucher']['serialNumber'] );
 
-                // remove when more than 1 products
-//                nfh_order_details_logging( $order_id, '_billing_last_name', $purchase['transactionId'] );
-//                nfh_order_details_logging( $order_id, '_shipping_last_name', $purchase['transactionId'] );
-//                nfh_order_details_logging( $order_id, '_billing_first_name', $purchase['voucher']['serialNumber'] );
-//                nfh_order_details_logging( $order_id, '_shipping_first_name', $purchase['voucher']['serialNumber'] );
+                if ($cart_contents[$cart_item_key]['del_method'] == 'Email') {
 
-//                nfh_order_process_logging( $order_id, 'log: updated user order name to serial and key' );
+                    nfh_order_process_logging( $order_id, '5. Attempting to send Email to '. $cart_contents[$cart_item_key]['del_value']);
 
-                if (WC()->cart->cart_contents[$cart_item_key]['del_method'] == 'Email') {
+                    send_1FORYOU_voucher_email($cart_contents[$cart_item_key]['del_value'], $purchase['voucher']['pin'], $purchase['voucher']['expiryDate'], $purchase['voucher']['serialNumber'], $voucher_amount, $_product->get_title());
 
-                    nfh_order_process_logging( $order_id, '5. Attempting to send Email to '. WC()->cart->cart_contents[$cart_item_key]['del_value']);
+                } else if ($cart_contents[$cart_item_key]['del_method'] == 'SMS') {
 
-                    send_1FORYOU_voucher_email(WC()->cart->cart_contents[$cart_item_key]['del_value'], $purchase['voucher']['pin'], $purchase['voucher']['expiryDate'], $purchase['voucher']['serialNumber'], $voucher_amount, $_product->get_title());
+                    nfh_order_process_logging( $order_id, '5. Attempting to send SMS to '. $cart_contents[$cart_item_key]['del_value']);
 
-                } else if (WC()->cart->cart_contents[$cart_item_key]['del_method'] == 'SMS') {
-
-                    nfh_order_process_logging( $order_id, '5. Attempting to send SMS to '. WC()->cart->cart_contents[$cart_item_key]['del_value']);
-
-                    send_1FORYOU_voucher_sms(WC()->cart->cart_contents[$cart_item_key]['del_value'], $purchase['voucher']['pin'], $purchase['voucher']['expiryDate'], $purchase['voucher']['serialNumber'], $voucher_amount, $_product->get_title());
+                    send_1FORYOU_voucher_sms($cart_contents[$cart_item_key]['del_value'], $purchase['voucher']['pin'], $purchase['voucher']['expiryDate'], $purchase['voucher']['serialNumber'], $voucher_amount, $_product->get_title());
 
                 }
 
@@ -585,13 +579,9 @@
 
                 nfh_order_process_logging( $order_id, '6. Transaction Completed and Voucher Sent ' );
 
-                //$nf->log_output($datalog,'nfh_payment_complete_voucher');
-
                 $ftp_data['transaction_status'] = 'Successful';
 
                 $order->update_status( 'completed' );
-//
-//                nfh_order_process_logging( $purchase_json, 'log: done Successful' );
 
             } else {
 
@@ -599,14 +589,10 @@
 
                 $purchase_json = json_encode($purchase);
 
-//                nfh_order_process_logging( $purchase_json, 'log: purchase json' );
-
                 $purchase_json = urlencode( $purchase_json );
 
                 $ftp_data['transaction_status'] = $purchase_json;
                 $ftp_data['unsuccessful_response'] = 'Unsuccessful';
-
-//                nfh_order_process_logging( $purchase_json, 'log: done Unsuccessful' );
 
             }
 
@@ -617,18 +603,11 @@
 
         nfh_order_process_logging( $order_id, 'log: Gift voucher product process end' );
 
-//		$order_items_arr = array();
-//		foreach ( $order->get_items() as  $item_key => $item_values ) {
-//			$item_data = $item_values->get_data();
-//
-//		}
-
 		// log
 		nfh_order_process_logging( $order_id, 'log: woocommerce_order_status_processing completed' );
 
-
         //SALT START
-        get_salt_for_reference($order_id,WC()->cart->cart_contents[$cart_item_key]['del_method'],WC()->cart->cart_contents[$cart_item_key]['del_value']);
+        get_salt_for_reference($order_id,$cart_contents[$cart_item_key]['del_method'],$cart_contents[$cart_item_key]['del_value']);
 
 
 	}
@@ -1511,6 +1490,7 @@
         }
 
 
+        /*Everlytic API
 		$url = 'https://flash.everlytic.net/api/2.0/production/sms/message';
 
 		$post = json_encode(['message' => $message,'mobile_number' => $mobile_number]);
@@ -1530,9 +1510,47 @@
 
 		$result = curl_exec($cSession);
 
-		curl_close($cSession);
+		curl_close($cSession); */
+		
+		
+		$curl = curl_init();
+		
+		$mobileNumbers = [];
+		
+		$mobileNumbers[] = $mobile_number;
+		
+		$postBody = [
+		  'text' => $message,
+		  'to' => $mobileNumbers
+		];
+		
+		$postJson = json_encode($postBody);
 
-		print_r($result);
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => 'https://api.clickatell.com/rest/message',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS => $postJson,
+          CURLOPT_HTTPHEADER => array(
+            'X-Version: 1',
+            'Content-Type: application/json',
+            'Authorization: Bearer iB4oSG2z05uxVyv1r_phQPZ5rXNiRtmtTDAjHbQ.8ZXLdcTJhDHBwHkxQpRJ7x3IAwMdliOtLjcmSR'
+          ),
+        ));
+        
+        $response = curl_exec($curl);
+        
+        curl_close($curl);
+
+		
+		
+
+		print_r($response);
 
 	}
 
@@ -3081,7 +3099,7 @@ function load_more_prods_popups() {
                             <input type="hidden" name="addToCart" value="yes">
                         </div>
                         <div class="voucher_btn">
-                            <button type="submit" class="add-prod add-prod-ajax">Add to Cart</button>
+                            <button type="submit" class="add-prod-ajax">Add to Cart</button>
                         </div>
                     </div>
                 </form>

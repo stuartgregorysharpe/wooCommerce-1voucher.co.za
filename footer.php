@@ -21,7 +21,7 @@
         <!-- start: digitaldelivery -->
         <div class="digitaldelivery">
             <h3>Digital delivery</h3>
-            <p>Vouchers are delivered via email or SMS after purchase.</p>
+            <p>Vouchers are delivered via SMS after purchase.</p>
         </div>
         <!-- end: digitaldelivery -->
 
