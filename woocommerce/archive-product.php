@@ -278,7 +278,7 @@ else if ( $queried_object instanceof WP_Term && 'product_cat' === $queried_objec
 
                         $has_custom_price = get_field('name_your_price', get_the_ID());
                         $price_name = get_field('product_front_end_name', get_the_ID());
-                        $name =  strtolower(str_replace(' ', '_', get_the_title()));
+                        $name =   $prod_tag->slug;
                         if(!$has_custom_price) { ?>
                         <input type="radio" id="<?php echo $name; ?>" name="selected_prod" value="<?php echo get_the_ID(); ?>">
                             <?php if($price_name) { ?>

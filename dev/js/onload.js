@@ -523,7 +523,20 @@ $(function() {
 		}
 	});
 
-
+	$('form.checkout').on('click', 'input[name="payment_method"]', function(e){
+		console.log("Input has been clicked !!!", e.target.value)
+		if(e.target.value != "peach-payments"){
+			var radioButtons = $('input[name="peach_payment_id"]')
+			for(var i = 0 ; i < radioButtons.length ; i ++){
+				
+				radioButtons[i].checked = false
+			}
+		}
+	});
+	
+	$(document).on('click', 'input[name="peach_payment_id"]', function(event){
+		$("#payment_method_peach-payments")[0].checked = true
+	})
 });
 
 function copyToClipboard(element) {
@@ -563,10 +576,30 @@ $(document).on('click', '.add-prod', function(e) {
 	$('[data-popup='+pop_ref+']').fadeIn();
 	$('#prod-popup').fadeIn();
 	$('.voucher_added_cart').fadeOut();
-
+	window.history.pushState({action: 'popup', prod_id: pop_ref}, 'OneVoucher', $(this).attr('data-url'));
+	
 });
-
+$(window).on("popstate", function(e) {
+	if (e.originalEvent.state !== null) {
+		if(e.originalEvent.state.action == 'popup'){
+			var pop_ref = e.originalEvent.state.prod_id;
+			$('[data-popup='+pop_ref+']').fadeIn();
+			$('#prod-popup').fadeIn();
+			$('.voucher_added_cart').fadeOut();
+		}
+		
+	}else{
+		$('[data-popup='+pop_ref+']').fadeOut();
+		$('#prod-popup').fadeOut();
+	}
+});
 $(document).on('click', '.close-pop', function(e) {
+	$('#prod-popup').fadeOut(500, function(){
+		if(history.state != null)
+			window.history.back()
+		else
+			window.history.pushState(null, 'OneVoucher', '/');
+	});
 	$('#prod-popup').fadeOut();
 	$('.prod-info-popup').fadeOut();
 	$('.edit-cart-item').fadeOut();
@@ -579,7 +612,14 @@ $(document).mouseup(function(e)
 	if (!container.is(e.target) && container.has(e.target).length === 0)
 	{
 		container.fadeOut();
-		$('#prod-popup').fadeOut();
+		if($('#prod-popup:visible').length > 0){
+			$('#prod-popup').fadeOut(500, function(){
+				if(history.state != null)
+					window.history.back()
+				else
+					window.history.pushState(null, 'OneVoucher', '/');
+			});
+		}
 		$('.edit-cart-item').fadeOut();
 	}
 
@@ -621,8 +661,12 @@ $( ".prodAddForm" ).on( "submit", function( event ) {
 		}
 	});
 	// console.log($(this).find('input[name=\'your_price\']').val());
+	
+
+	var prod_holder = $(this).parent().parent();
+	var img = $(prod_holder).find('.prod-logo').attr('src');
+	var name = $(prod_holder).find('h2').text();
 	var voucherAmount = $(this).find('input[name=\'your_price\']').val()
-	console.log(voucherAmount)
 	if(voucherAmount < 50 || voucherAmount > 4000){
 		$(prod_holder).find('.pop-validation-amount-range').fadeIn();
 		return;
@@ -634,15 +678,11 @@ $( ".prodAddForm" ).on( "submit", function( event ) {
 	else{
 		valid = true;
 	}
-
-	var prod_holder = $(this).parent().parent();
-	var img = $(prod_holder).find('.prod-logo').attr('src');
-	var name = $(prod_holder).find('h2').text();
-
 	if(valid){
-		addProd($( this ).serialize(),img,name);
+		addProd($( this ).serialize(),img,name, prod_holder);
 		$(prod_holder).find('.pop-validation').fadeOut();
 		$(prod_holder).find('.pop-validation-amount-range').fadeOut();
+		$(prod_holder).find('.pop-validation-amount-limit').fadeOut();
 	} else {
 		$(prod_holder).find('.pop-validation').fadeIn();
 	}
@@ -650,7 +690,7 @@ $( ".prodAddForm" ).on( "submit", function( event ) {
 });
 
 
-function addProd(e, img, name) {
+function addProd(e, img, name, prod_holder) {
 	event.preventDefault()
 	jQuery.ajax({
 		type: "post",
@@ -658,17 +698,26 @@ function addProd(e, img, name) {
 		url: my_ajax_object.ajax_url,
 		data : {action: "add_cart_item", prodData: e},
 		success: function(data){
-			console.log(data.responseText);
-			$('.cart_empty').hide();
-			reloadCart();
-			$('.voucher_added_cart .v_top_logo img').attr('src', img);
-			$('.popup-voucher-name').text(name);
-			$('.cart-footer').show();
-			$('#prod-popup').fadeOut();
-			$('.prod-info-popup').fadeOut();
-			setTimeout(function(){
-				$('.voucher_added_cart').fadeIn();
-			}, 500);
+			console.log(data, data.status)
+			if(data.status == 'true'){
+				$('.cart_empty').hide();
+				reloadCart();
+				$('.voucher_added_cart .v_top_logo img').attr('src', img);
+				$('.popup-voucher-name').text(name);
+				$('.cart-footer').show();
+				$('#prod-popup').fadeOut(500, function(){
+					window.history.back()
+				});
+				$('.prod-info-popup').fadeOut();
+				setTimeout(function(){
+					$('.voucher_added_cart').fadeIn();
+				}, 500);
+			}
+			else{
+				$(prod_holder).find('.pop-validation-amount-limit').fadeIn();
+				return;
+			}
+			
 		},
 		error: function(msg){
 			console.log(msg.responseText);
@@ -677,7 +726,9 @@ function addProd(e, img, name) {
 			$('.voucher_added_cart .v_top_logo img').attr('src', img);
 			$('.popup-voucher-name').text(name);
 			$('.cart-footer').show();
-			$('#prod-popup').fadeOut();
+			$('#prod-popup').fadeOut(500, function(){
+				window.history.back()
+			});
 			$('.prod-info-popup').fadeOut();
 			setTimeout(function(){
 				$('.voucher_added_cart').fadeIn();
@@ -787,15 +838,19 @@ function reloadCart() {
 		data : { action: "reload_cart" },
 		success: function(data){
 			$('.cart-list').html(data.responseText);
-			// $('#prod-popup').fadeOut();
-			// $('.prod-info-popup').fadeOut();
+			$('#prod-popup').fadeOut(500, function(){
+				window.history.back()
+			});
+			$('.prod-info-popup').fadeOut();
 			// $('.edit-cart-item').fadeOut();
 			getcartDetails();
 		},
 		error: function(data){
 			$('.cart-list').html(data.responseText);
-			// $('#prod-popup').fadeOut();
-			// $('.prod-info-popup').fadeOut();
+			$('#prod-popup').fadeOut(500, function(){
+				window.history.back()
+			});
+			$('.prod-info-popup').fadeOut();
 			// $('.edit-cart-item').fadeOut();
 			getcartDetails();
 		}
