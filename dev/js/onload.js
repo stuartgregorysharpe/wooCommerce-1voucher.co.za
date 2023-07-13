@@ -705,9 +705,8 @@ function addProd(e, img, name, prod_holder) {
 				$('.voucher_added_cart .v_top_logo img').attr('src', img);
 				$('.popup-voucher-name').text(name);
 				$('.cart-footer').show();
-				$('#prod-popup').fadeOut(500, function(){
-					window.history.back()
-				});
+				$('#prod-popup').fadeOut();
+
 				$('.prod-info-popup').fadeOut();
 				setTimeout(function(){
 					$('.voucher_added_cart').fadeIn();
@@ -838,18 +837,14 @@ function reloadCart() {
 		data : { action: "reload_cart" },
 		success: function(data){
 			$('.cart-list').html(data.responseText);
-			$('#prod-popup').fadeOut(500, function(){
-				window.history.back()
-			});
+			$('#prod-popup').fadeOut();
 			$('.prod-info-popup').fadeOut();
 			// $('.edit-cart-item').fadeOut();
 			getcartDetails();
 		},
 		error: function(data){
 			$('.cart-list').html(data.responseText);
-			$('#prod-popup').fadeOut(500, function(){
-				window.history.back()
-			});
+			$('#prod-popup').fadeOut();
 			$('.prod-info-popup').fadeOut();
 			// $('.edit-cart-item').fadeOut();
 			getcartDetails();
