@@ -3,11 +3,13 @@ Welcome to the GitHub repository of 1voucher WooCommerce Store. This repository 
 
 # 1Voucher web site URL
 https://www.1voucher.co.za/
+
+# Website Screenshot
+
 ![Screenshot_34](https://github.com/stuartgregorysharpe/wooCommerce-1voucher.co.za/assets/137684294/271ee4c2-cf4f-472a-80c3-4093e67236eb)
 ![Screenshot_35](https://github.com/stuartgregorysharpe/wooCommerce-1voucher.co.za/assets/137684294/257c392b-e8d0-42c2-bf12-3594d0321bbc)
 ![Screenshot_36](https://github.com/stuartgregorysharpe/wooCommerce-1voucher.co.za/assets/137684294/eb027527-2a36-4153-8be6-fba8b162505e)
 
-# Website Screenshot
 
 User-Friendly Interface: Optimized for an excellent shopping experience.
 
@@ -25,11 +27,6 @@ WordPress: Robust CMS used as the backbone.
 
 MySQL: Database for storing product data, user info, and transactions.
 
-
-# Clone the repository:
-Navigate to the WordPress folder and set up the database connection.
-
-# Install necessary plugins and themes.
 
 # Plugins
 
